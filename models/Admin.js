@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define("user", {
+  const Admin = sequelize.define("admin", {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -19,13 +19,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   });
-
-  User.associate = models => {
-    User.belongsToMany(models.Ticket, {
-      through: models.userTicket_rel,
-      as: "Tickets",
-      foreignKey: "user_id"
+  Admin.associate = models => {
+    Admin.hasMany(models.Event, {
+      as: "Event",
+      foreignKey: "admin_id"
     });
   };
-  return User;
+
+  return Admin;
 };

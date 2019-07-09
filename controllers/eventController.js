@@ -1,8 +1,8 @@
-const Ticket = require("../models/Ticket");
+const Event = require("../models/Event");
 
-exports.createTicket = (req, res, next) => {
+exports.createEvent = (req, res, next) => {
   const { imageUrl, title, category, description, price } = req.body;
-  Ticket.create({
+  Event.create({
     imageUrl,
     title,
     description,
@@ -18,11 +18,11 @@ exports.createTicket = (req, res, next) => {
     });
 };
 
-exports.getTickets = (req, res, next) => {
-  Ticket.findAll()
-    .then(tickets => {
+exports.getEvents = (req, res, next) => {
+  Event.findAll()
+    .then(events => {
       res.status(200).json({
-        tickets
+        events
       });
     })
     .catch(err => {
