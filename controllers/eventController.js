@@ -1,9 +1,10 @@
-const Event = require("../models/Event");
+const models = require("../models");
+const Event = models.Event;
 
 exports.createEvent = (req, res, next) => {
-  const { imageUrl, title, category, description, price } = req.body;
+  const { image, title, category, description, price } = req.body;
   Event.create({
-    imageUrl,
+    image,
     title,
     description,
     price,
@@ -29,4 +30,21 @@ exports.getEvents = (req, res, next) => {
       res.status(400).json({ message: "loading tickets failed" });
       console.log(err);
     });
+};
+
+exports.EditEvent = (req, res, next) => {
+  const eventId = req.params.eventId;
+  const { image, title, category, description, startAt, endAt } = req.body;
+  Event.findByPk(eventId).then(event => {
+    if (!event) {
+      res.status(400).json({ message: "no event found" });
+    }
+    event
+      .update({ image, title, category, description, startAt, endAt })
+      .then(result => res.status(200).json({ result }))
+      .catch(err => {
+        res.status(400).json({ message: "updating failed" });
+        console.log(err);
+      });
+  });
 };

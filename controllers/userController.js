@@ -2,7 +2,8 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/User");
+const models = require("../models");
+const User = models.User;
 
 exports.signUp = (req, res, next) => {
   const errors = validationResult(req);
@@ -43,6 +44,7 @@ exports.signUp = (req, res, next) => {
 exports.login = (req, res, next) => {
   const { email, password } = req.body;
   let loadedUser;
+
   User.findOne({ email })
     .then(user => {
       if (!user) {

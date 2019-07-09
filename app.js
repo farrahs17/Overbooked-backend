@@ -20,9 +20,9 @@ app.use("/api/", userRoutes);
 app.use("/api/", eventRoutes);
 
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(result => {
     // console.log(result);
-    app.listen(3000);
+    app.listen(8080);
   })
   .catch(err => console.log(err));

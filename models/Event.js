@@ -30,12 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     startsAt: {
-      type: DataTypes.DATE,
-      allowNull: false
+      type: DataTypes.DATE
     },
     endsAt: {
-      type: DataTypes.DATE,
-      allowNull: false
+      type: DataTypes.DATE
     }
   });
   Event.associate = models => {
