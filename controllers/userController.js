@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const models = require("../models");
 const User = models.User;
+const Admin = models.Admin;
 
 exports.signUp = (req, res, next) => {
   const errors = validationResult(req);

@@ -32,7 +32,7 @@ exports.getEvents = (req, res, next) => {
     });
 };
 
-exports.EditEvent = (req, res, next) => {
+exports.editEvent = (req, res, next) => {
   const eventId = req.params.eventId;
   const { image, title, category, description, startAt, endAt } = req.body;
   Event.findByPk(eventId).then(event => {
@@ -47,4 +47,20 @@ exports.EditEvent = (req, res, next) => {
         console.log(err);
       });
   });
+};
+
+exports.deleteEvent = (req, res, next) => {
+  const eventId = req.params.eventId;
+  Event.findByPk(eventId)
+    .then(event => {
+      if (!event) {
+        res.status(400).json({ message: "no event found" });
+      }
+      return event.destroy();
+    })
+    .then(result => res.status(200).json({ message: "event deleted" }))
+    .catch(err => {
+      res.status(400).json({ message: "deleting failed" });
+      console.log(err);
+    });
 };
