@@ -2,13 +2,23 @@ const models = require("../models");
 const Event = models.Event;
 
 exports.createEvent = (req, res, next) => {
-  const { image, title, category, description, price } = req.body;
+  const {
+    image,
+    title,
+    category,
+    description,
+    price,
+    startsAt,
+    endsAt
+  } = req.body;
   Event.create({
     image,
     title,
     description,
     price,
-    category
+    category,
+    startsAt,
+    endsAt
   })
     .then(ticket => {
       res.status(200).json({ message: "created successfuly" });
@@ -22,6 +32,7 @@ exports.createEvent = (req, res, next) => {
 exports.getEvents = (req, res, next) => {
   Event.findAll()
     .then(events => {
+      console.log(events);
       res.status(200).json({
         events
       });
