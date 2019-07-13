@@ -6,18 +6,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true
     },
+    type: {
+      type: DataTypes.ENUM("Early bird", "Regular", "Vip"),
+      allowNull: false
+    },
     price: {
       type: DataTypes.DOUBLE,
       allowNull: false
     }
   });
-
-  Ticket.associate = models => {
-    Ticket.belongsTo(models.TicketType, {
-      as: "TicketType",
-      foreignKey: "ticket-type_id"
-    });
-  };
 
   Ticket.associate = models => {
     Ticket.belongsTo(models.Event, {

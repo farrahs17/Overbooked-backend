@@ -7,7 +7,6 @@ const models = {
   Event: sequelize.import("./Event.js"),
   Admin: sequelize.import("./Admin.js"),
   Agenda: sequelize.import("./Agenda.js"),
-  TicketType: sequelize.import("./TicketType.js"),
   Ticket: sequelize.import("./Ticket.js"),
   userTicket_rel: sequelize.import("./user-ticket_rel.js")
 };

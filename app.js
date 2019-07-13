@@ -7,6 +7,8 @@ const Admin = require("./models");
 const userRoutes = require("./routes/user");
 const eventRoutes = require("./routes/event");
 const adminRoutes = require("./routes/admin");
+const ticketRoutes = require("./routes/ticket");
+const multer = require("multer");
 
 app.use(bodyParser.json());
 
@@ -15,14 +17,15 @@ app.use(
     extended: true
   })
 );
+app.use(multer().single("image"));
 app.use(cors());
 
 app.use("/api/", userRoutes);
 app.use("/api/", eventRoutes);
 app.use("/api/", adminRoutes);
-
+app.use("/api/", ticketRoutes);
 sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(result => {
     // console.log(result);
 

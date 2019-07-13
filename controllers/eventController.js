@@ -1,5 +1,6 @@
 const models = require("../models");
 const Event = models.Event;
+const Ticket = models.Ticket;
 
 exports.createEvent = (req, res, next) => {
   const {
@@ -7,21 +8,26 @@ exports.createEvent = (req, res, next) => {
     title,
     category,
     description,
-    price,
     startsAt,
-    endsAt
+    endsAt,
+    tickets
   } = req.body;
-  Event.create({
-    image,
-    title,
-    description,
-    price,
-    category,
-    startsAt,
-    endsAt
-  })
-    .then(ticket => {
-      res.status(200).json({ message: "created successfuly" });
+  Event.create(
+    {
+      image,
+      title,
+      description,
+      category,
+      startsAt,
+      endsAt,
+      tickets
+    },
+    {
+      include: [Ticket]
+    }
+  )
+    .then(event => {
+      console.log(event);
     })
     .catch(err => {
       res.status(400).json({ message: "creation failed" });
@@ -43,6 +49,15 @@ exports.getEvents = (req, res, next) => {
     });
 };
 
+exports.getOneEvent = (req, res, next) => {
+  const eventId = req.params.eventId;
+  Event.findByPk(eventId)
+    .then(event => res.status(200).json(event))
+    .catch(err => {
+      res.status(400).json({ message: "can't find event" });
+      console.log(err);
+    });
+};
 exports.editEvent = (req, res, next) => {
   const eventId = req.params.eventId;
   const { image, title, category, description, startAt, endAt } = req.body;
