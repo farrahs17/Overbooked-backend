@@ -6,5 +6,6 @@ router.get("/get-events", eventController.getEvents);
 router.put("/edit-event/:eventId", eventController.editEvent);
 router.delete("/edit-delete/:eventId", eventController.deleteEvent);
 router.get("/get-event/:eventId", eventController.getOneEvent);
+router.get("/get-event/:category", eventController.filterEvents);
 
 module.exports = router;

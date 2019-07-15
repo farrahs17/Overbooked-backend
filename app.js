@@ -25,7 +25,7 @@ app.use("/api/", eventRoutes);
 app.use("/api/", adminRoutes);
 app.use("/api/", ticketRoutes);
 sequelize
-  .sync({ force: true })
+  .sync()
   .then(result => {
     // console.log(result);
 

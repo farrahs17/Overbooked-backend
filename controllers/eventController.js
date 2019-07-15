@@ -90,3 +90,20 @@ exports.deleteEvent = (req, res, next) => {
       console.log(err);
     });
 };
+
+exports.filterEvents = (req, res, next) => {
+  const category = req.params.category
+  Event.findAll({
+    where: { category: category }
+  })
+    .then(events => {
+      console.log(events);
+      res.status(200).json({
+        events
+      });
+    })
+    .catch(err => {
+      res.status(400).json({ message: "filtering failed" });
+      console.log(err);
+    });
+};
