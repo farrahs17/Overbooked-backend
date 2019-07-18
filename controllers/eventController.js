@@ -3,15 +3,9 @@ const Event = models.Event;
 const Ticket = models.Ticket;
 
 exports.createEvent = (req, res, next) => {
-  const {
-    image,
-    title,
-    category,
-    description,
-    startsAt,
-    endsAt,
-    tickets
-  } = req.body;
+  const { title, category, description, startsAt, endsAt, tickets } = req.body;
+  const image = req.file;
+  debugger;
   Event.create(
     {
       image,
@@ -92,7 +86,7 @@ exports.deleteEvent = (req, res, next) => {
 };
 
 exports.filterEvents = (req, res, next) => {
-  const category = req.params.category
+  const category = req.params.category;
   Event.findAll({
     where: { category: category }
   })
