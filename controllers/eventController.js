@@ -1,11 +1,15 @@
 const models = require("../models");
 const Event = models.Event;
 const Ticket = models.Ticket;
+const Agenda = models.Agenda;
 
 exports.createEvent = (req, res, next) => {
-  const { title, category, description, startsAt, endsAt, tickets } = req.body;
-  const image = req.file;
+  const { title, category, description, startsAt, endsAt } = req.body;
   debugger;
+  let tickets = JSON.parse(req.body.tickets);
+  let agendas = JSON.parse(req.body.agendas);
+  let image = req.file.path;
+  console.log(tickets);
   Event.create(
     {
       image,
@@ -14,18 +18,21 @@ exports.createEvent = (req, res, next) => {
       category,
       startsAt,
       endsAt,
-      tickets
+      tickets,
+      agendas
     },
     {
-      include: [Ticket]
+      include: [Ticket, Agenda]
+      // association: [Agenda]
     }
   )
     .then(event => {
-      console.log(event);
+      console.log("event =======================>>", event);
+      res.status(200).json(event);
     })
     .catch(err => {
+      console.log("err =======================>>", err);
       res.status(400).json({ message: "creation failed" });
-      console.log(err);
     });
 };
 
@@ -52,15 +59,23 @@ exports.getOneEvent = (req, res, next) => {
       console.log(err);
     });
 };
+
 exports.editEvent = (req, res, next) => {
   const eventId = req.params.eventId;
-  const { image, title, category, description, startAt, endAt } = req.body;
+  const { title, category, description, startsAt, endsAt } = req.body;
   Event.findByPk(eventId).then(event => {
+    debugger;
     if (!event) {
       res.status(400).json({ message: "no event found" });
     }
     event
-      .update({ image, title, category, description, startAt, endAt })
+      .update({
+        title: title,
+        category: category,
+        description: description,
+        startsAt: startsAt,
+        endsAt: endsAt
+      })
       .then(result => res.status(200).json({ result }))
       .catch(err => {
         res.status(400).json({ message: "updating failed" });

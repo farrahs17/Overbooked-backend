@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     category: {
       type: DataTypes.ENUM(
-        "Arts & Theater",
+        "Arts",
         "Business",
         "Fashion",
         "Music",
@@ -38,7 +38,6 @@ module.exports = (sequelize, DataTypes) => {
   });
   Event.associate = models => {
     Event.hasMany(models.Agenda, {
-      as: "Agenda",
       foreignKey: "event_id"
     });
     Event.hasMany(models.Ticket, {

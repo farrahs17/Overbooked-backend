@@ -6,11 +6,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       primaryKey: true
     },
-    Desc: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    Time: {
+    time: {
+      type: DataTypes.TIME,
+      allowNull: false
+    },
+    date: {
       type: DataTypes.DATE,
       allowNull: false
     }
