@@ -21,17 +21,6 @@ const storage = multer.diskStorage({
 
 app.use("/public", express.static(path.join(__dirname, "public")));
 
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpeg" ||
-    file.mimetype === "image/jpg"
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
 app.use(bodyParser.json());
 
 app.use(
@@ -43,7 +32,16 @@ app.use(
 app.use(multer({ storage: storage }).single("image"));
 
 // app.use("/images", express.static(path.join(__dirname, "images")));
-app.use(cors());
+// app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, GET, PUT, POST, PATCH, DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  next();
+});
 
 app.use("/api/", userRoutes);
 app.use("/api/", eventRoutes);
