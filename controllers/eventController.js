@@ -5,7 +5,7 @@ const Agenda = models.Agenda;
 
 exports.createEvent = (req, res, next) => {
   const { title, category, description, startsAt, endsAt } = req.body;
-  debugger;
+
   let tickets = JSON.parse(req.body.tickets);
   let agendas = JSON.parse(req.body.agendas);
   let image = req.file.path;
@@ -52,7 +52,7 @@ exports.getEvents = (req, res, next) => {
 
 exports.getOneEvent = (req, res, next) => {
   const eventId = req.params.eventId;
-  Event.findByPk(eventId)
+  Event.findByPk(eventId, { include: [Ticket, Agenda] })
     .then(event => res.status(200).json(event))
     .catch(err => {
       res.status(400).json({ message: "can't find event" });

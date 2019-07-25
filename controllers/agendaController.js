@@ -3,13 +3,11 @@ const Agenda = models.Agenda;
 
 exports.getAgenda = (req, res, next) => {
   const eventId = req.params.eventId;
-  console.log(eventId);
 
   Agenda.findAll({
     where: { event_id: eventId }
   })
     .then(agenda => {
-      console.log(agenda);
       res.status(200).json({
         agenda
       });

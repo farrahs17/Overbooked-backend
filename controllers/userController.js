@@ -31,7 +31,9 @@ exports.signUp = (req, res, next) => {
         return user.save();
       })
       .then(result => {
-        res.status(200).json({ message: "User created!", userId: result._id });
+        res
+          .status(200)
+          .json({ message: "User created!", userId: result.userId });
       })
       .catch(err => {
         if (!err.statusCode) {
@@ -59,19 +61,15 @@ exports.login = (req, res, next) => {
         const token = jwt.sign(
           {
             email: loadedUser.email,
-            userId: loadedUser.id.toString()
+            userId: loadedUser.id
           },
           "salmawalidhefnawy94",
           { expiresIn: "1h" }
         );
-        res
-          .status(200)
-
-          .json({
-            token: token,
-            userId: loadedUser.id.toString(),
-            username: loadedUser.username
-          });
+        res.status(200).json({
+          token: token,
+          userId: loadedUser.id
+        });
       });
     })
 
