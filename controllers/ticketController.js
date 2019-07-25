@@ -20,17 +20,39 @@ exports.createTicket = (req, res, next) => {
 };
 
 exports.incQuantity = (req, res, next) => {
-  const ticketId = req.params.ticketId;
-  // const { quantity, ticketId } = req.body;
-  // const userId = req.userId;
-
+  // const ticketId = req.params.ticketId;
+  const { quantity, ticketId } = req.body;
+  const userId = req.userId;
+  console.log(ticketId);
   userTicket_rel
-    .increment("quantity", {
-      where: {
-        id: ticketId
-      }
+    .findOne({
+      where: { quantity: quantity, ticket_id: ticketId, user_id: userId }
     })
     .then(result => {
+      if (!result) {
+        userTicket_rel
+          .create({ quantity: quantity, ticket_id: ticketId, user_id: userId })
+          .then(result => {
+            console.log(result);
+            res
+              .status(200)
+              .json({ message: "ticket created for user" })
+              .catch(err => {
+                console.log(err);
+                res.status(400).json({ message: "ticket creation failed" });
+              });
+          });
+      }
+      userTicket_rel
+        .increment("quantity", { where: { quantity: quantity } })
+        .then(result => {
+          console.log(result);
+          res.status(200).json({ message: "ticket added" });
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(400).json({ message: "something went wrong" });
+        });
       console.log(result);
       res.status(200).json({ message: "ticket added" });
     })

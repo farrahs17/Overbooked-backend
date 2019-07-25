@@ -12,6 +12,15 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, GET, PUT, POST, PATCH, DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  next();
+});
 const storage = multer.diskStorage({
   destination: "./public/uploads/",
   filename: function(req, file, cb) {
@@ -33,15 +42,6 @@ app.use(multer({ storage: storage }).single("image"));
 
 // app.use("/images", express.static(path.join(__dirname, "images")));
 // app.use(cors());
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "OPTIONS, GET, PUT, POST, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "*");
-  next();
-});
 
 app.use("/api/", userRoutes);
 app.use("/api/", eventRoutes);

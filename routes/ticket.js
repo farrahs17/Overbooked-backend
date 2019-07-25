@@ -5,6 +5,6 @@ const eventController = require("../controllers/eventController");
 
 router.post("/post-ticket", ticketController.createTicket);
 // router.get("/get-tickets", ticketController.getTickets);
-router.post("/checkout/:ticketId/add", ticketController.incQuantity);
+router.post("/checkout/:ticketId/add", isAuth, ticketController.incQuantity);
 
 module.exports = router;
