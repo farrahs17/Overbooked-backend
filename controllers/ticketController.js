@@ -20,13 +20,14 @@ exports.createTicket = (req, res, next) => {
 };
 
 exports.incQuantity = (req, res, next) => {
-  const ticketId = req.params.eventId;
+  const ticketId = req.params.ticketId;
   // const { quantity, ticketId } = req.body;
-  const userId = req.userId;
+  // const userId = req.userId;
+
   userTicket_rel
     .increment("quantity", {
       where: {
-        ticket_id: ticketId
+        id: ticketId
       }
     })
     .then(result => {
