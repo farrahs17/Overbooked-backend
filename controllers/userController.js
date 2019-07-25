@@ -80,3 +80,16 @@ exports.login = (req, res, next) => {
       next(err);
     });
 };
+exports.getUsers = (req, res, next) => {
+  User.findAll()
+    .then(users => {
+      console.log(users);
+      res.status(200).json({
+        users
+      });
+    })
+    .catch(err => {
+      res.status(400).json({ message: "no users found" });
+      console.log(err);
+    });
+};
