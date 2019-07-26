@@ -48,27 +48,28 @@ exports.login = (req, res, next) => {
   const { email, password } = req.body;
   let loadedUser;
 
-  User.findOne({ email })
+  User.findOne({ where: { email } })
     .then(user => {
       if (!user) {
         return res.status(401).json({ message: "User doesn't exist" });
       }
-      loadedUser = user;
+
       bcrypt.compare(password, user.password).then(isEqual => {
         if (!isEqual) {
           return res.status(401).json({ message: "Incorrect password" });
         }
+
         const token = jwt.sign(
           {
-            email: loadedUser.email,
-            userId: loadedUser.id
+            email: user.email,
+            userId: user.id
           },
           "salmawalidhefnawy94",
           { expiresIn: "1h" }
         );
         res.status(200).json({
           token: token,
-          userId: loadedUser.id
+          userId: user.id
         });
       });
     })

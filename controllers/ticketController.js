@@ -11,7 +11,7 @@ exports.createTicket = (req, res, next) => {
     TicketType
   })
     .then(ticket => {
-      res.status(200).json({ message: "created successfuly" });
+      res.status(200).json({ message: "created successfully" });
     })
     .catch(err => {
       res.status(400).json({ message: "creation failed" });
@@ -24,13 +24,14 @@ exports.incQuantity = (req, res, next) => {
   const { quantity, ticketId } = req.body;
   const userId = req.userId;
   console.log(ticketId);
+  console.log(userId);
   userTicket_rel
     .findOne({
       where: { quantity: quantity, ticket_id: ticketId, user_id: userId }
     })
     .then(result => {
       if (!result) {
-        userTicket_rel
+        return userTicket_rel
           .create({ quantity: quantity, ticket_id: ticketId, user_id: userId })
           .then(result => {
             console.log(result);
@@ -44,7 +45,9 @@ exports.incQuantity = (req, res, next) => {
           });
       }
       userTicket_rel
-        .increment("quantity", { where: { quantity: quantity } })
+        .increment("quantity", {
+          where: { ticket_id: ticketId, user_id: userId }
+        })
         .then(result => {
           console.log(result);
           res.status(200).json({ message: "ticket added" });
@@ -53,6 +56,37 @@ exports.incQuantity = (req, res, next) => {
           console.log(err);
           res.status(400).json({ message: "something went wrong" });
         });
+      console.log(result);
+      res.status(200).json({ message: "ticket added" });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(400).json({ message: "something went wrong" });
+    });
+};
+
+exports.decQuantity = (req, res, next) => {
+  // const ticketId = req.params.ticketId;
+  const { quantity, ticketId } = req.body;
+  const userId = req.userId;
+  console.log(ticketId);
+  console.log(userId);
+  userTicket_rel
+    .findOne({
+      where: { quantity: quantity, ticket_id: ticketId, user_id: userId }
+    })
+    .then(result => {
+      userTicket_rel.decrement("quantity", {
+        where: { ticket_id: ticketId, user_id: userId }
+      });
+      // .then(result => {
+      //   console.log(result);
+      //   res.status(200).json({ message: "ticket added" });
+      // })
+      // .catch(err => {
+      //   console.log(err);
+      //   res.status(400).json({ message: "something went wrong" });
+      // });
       console.log(result);
       res.status(200).json({ message: "ticket added" });
     })
