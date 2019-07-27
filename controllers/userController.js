@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const passwordValidator = require("password-validator");
 const models = require("../models");
 const User = models.User;
 const Admin = models.Admin;
@@ -19,7 +19,18 @@ exports.signUp = (req, res, next) => {
     if (user) {
       return res.status(400).json({ message: "User already exists" });
     }
+    // Create a schema
+    const passwordValidation = new passwordValidator();
+    passwordValidation
+      .is()
+      .min(8)
+      .has()
+      .not()
+      .spaces();
 
+    if (!passwordValidation.validate(password)) {
+      return res.status(400).json({ message: "password is not valid" });
+    }
     bcrypt
       .hash(password, 12)
       .then(hashedPassword => {
