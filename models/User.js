@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = models => {
     User.belongsToMany(models.Ticket, {
       through: models.userTicket_rel,
-      as: "Tickets",
+      as: "User",
       foreignKey: "user_id"
     });
   };
