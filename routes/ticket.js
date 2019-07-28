@@ -7,11 +7,5 @@ const checkoutController = require("../controllers/checkoutController");
 router.post("/post-ticket", ticketController.createTicket);
 // router.get("/get-tickets", ticketController.getTickets);
 router.post("/checkout/", isAuth, checkoutController.checkout);
-router.post(
-  "/checkout/:ticketId/subtract",
-  isAuth,
-  ticketController.decQuantity
-);
-router.get("/checkout/:eventId", isAuth, ticketController.total);
 
 module.exports = router;
