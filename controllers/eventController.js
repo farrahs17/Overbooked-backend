@@ -23,16 +23,13 @@ exports.createEvent = (req, res, next) => {
     },
     {
       include: [Ticket, Agenda]
-      // association: [Agenda]
     }
   )
     .then(event => {
-      console.log("event =======================>>", event);
       res.status(200).json(event);
     })
     .catch(err => {
-      console.log("err =======================>>", err);
-      res.status(400).json({ message: "creation failed" });
+      res.status(400).json({ message: "Event creation failed" });
     });
 };
 
@@ -45,7 +42,7 @@ exports.getEvents = (req, res, next) => {
       });
     })
     .catch(err => {
-      res.status(400).json({ message: "loading tickets failed" });
+      res.status(400).json({ message: "Loading events failed" });
       console.log(err);
     });
 };
@@ -55,7 +52,7 @@ exports.getOneEvent = (req, res, next) => {
   Event.findByPk(eventId, { include: [Ticket, Agenda] })
     .then(event => res.status(200).json(event))
     .catch(err => {
-      res.status(400).json({ message: "can't find event" });
+      res.status(400).json({ message: "Event not found" });
       console.log(err);
     });
 };
@@ -66,7 +63,7 @@ exports.editEvent = (req, res, next) => {
   Event.findByPk(eventId).then(event => {
     debugger;
     if (!event) {
-      res.status(400).json({ message: "no event found" });
+      res.status(400).json({ message: "Event not found" });
     }
     event
       .update({
@@ -78,7 +75,7 @@ exports.editEvent = (req, res, next) => {
       })
       .then(result => res.status(200).json({ result }))
       .catch(err => {
-        res.status(400).json({ message: "updating failed" });
+        res.status(400).json({ message: "Event updating failed" });
         console.log(err);
       });
   });
@@ -89,13 +86,13 @@ exports.deleteEvent = (req, res, next) => {
   Event.findByPk(eventId)
     .then(event => {
       if (!event) {
-        res.status(400).json({ message: "no event found" });
+        res.status(400).json({ message: "No event found" });
       }
       return event.destroy();
     })
-    .then(result => res.status(200).json({ message: "event deleted" }))
+    .then(result => res.status(200).json({ message: "Event deleted" }))
     .catch(err => {
-      res.status(400).json({ message: "deleting failed" });
+      res.status(400).json({ message: "Deleting failed" });
       console.log(err);
     });
 };
@@ -112,7 +109,7 @@ exports.filterEvents = (req, res, next) => {
       });
     })
     .catch(err => {
-      res.status(400).json({ message: "filtering failed" });
+      res.status(400).json({ message: "Filtering events failed" });
       console.log(err);
     });
 };

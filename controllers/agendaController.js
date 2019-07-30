@@ -13,7 +13,7 @@ exports.getAgenda = (req, res, next) => {
       });
     })
     .catch(err => {
-      res.status(400).json({ message: "fetching events failed" });
+      res.status(400).json({ message: "Fetching agenda failed" });
       console.log(err);
     });
 };

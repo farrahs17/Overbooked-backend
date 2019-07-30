@@ -1,5 +1,7 @@
 const models = require("../models");
 const Ticket = models.Ticket;
+const Event = models.Event;
+const userTicket_rel = models.userTicket_rel;
 
 exports.createTicket = (req, res, next) => {
   const { price, TicketType } = req.body;
@@ -15,3 +17,16 @@ exports.createTicket = (req, res, next) => {
       console.log(err);
     });
 };
+
+// exports.eventStats = (req, res, next) => {
+//   let eventTitles = [];
+//   let tickets = [];
+//   Event.findAll()
+//     .then(result => {
+//       console.log(result);
+//       result.map(event => {
+//         eventTitles.push(event.title);
+//       });
+//     })
+//     .catch(err => console.log(err));
+// };

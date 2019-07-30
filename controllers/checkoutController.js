@@ -21,9 +21,9 @@ exports.checkout = (req, res, next) => {
         ticket.user_id = userId;
         return ticket;
       });
-      debugger;
       userTicket_rel.bulkCreate(tickets).then(result => {
         console.log(result);
+        res.status(200).json({ message: "Success!" });
       });
     })
     .catch(err => {
